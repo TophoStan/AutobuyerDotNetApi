@@ -5,10 +5,11 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "http://localhost:5092",
+      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRESQL_CONNECTIONSTRING": "Server=localhost;Port=5432;Database=data;User Id=admin;Password=password; Include Error Detail = true;"
+        "POSTGRESQL_CONNECTIONSTRING": "Server=localhost;Port=5432;Database=data;User Id=admin;Password=password; Include Error Detail = true;",
+        "PLAYWRIGHT_SERVER": "localhost:3000"
       }
     },
     "https": {
