@@ -7,4 +7,5 @@ public record BrandDto
     public required string BaseUrl { get; set; } = string.Empty;
     public required string LogoUrl { get; set; } = string.Empty;
     public required double MinimumFreeDeliveryPrice { get; set; }
+    public List<ProductDto> Products { get; set; } = [];
 }

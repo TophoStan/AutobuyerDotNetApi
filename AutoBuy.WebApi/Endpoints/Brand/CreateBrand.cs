@@ -11,7 +11,6 @@ public record CreateBrandRequest
     public required double MinimumFreeDeliveryPrice { get; set; }
 }
 
-
 public class CreateBrand : Endpoint<CreateBrandRequest, BrandDto>
 {
     private readonly IAutoBuyDbContext _context;
@@ -41,13 +40,14 @@ public class CreateBrand : Endpoint<CreateBrandRequest, BrandDto>
         _context.Brands.Add(brand);
         await _context.SaveChangesAsync(ct);
 
-        var response = new BrandDto()
+        var response = new BrandDto
         {
             Id = brand.Id,
             Name = brand.Name,
             BaseUrl = brand.BaseUrl.ToString(),
             LogoUrl = brand.LogoUrl.ToString(),
-            MinimumFreeDeliveryPrice = brand.MinimumFreeDeliveryPrice
+            MinimumFreeDeliveryPrice = brand.MinimumFreeDeliveryPrice,
+            Products = [] // New brand has no products initially
         };
 
         await Send.CreatedAtAsync<GetBrand>(new { id = brand.Id }, response, cancellation: ct);

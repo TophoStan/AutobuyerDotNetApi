@@ -30,7 +30,12 @@ public class UpdateBrand : Endpoint<UpdateBrandRequest, BrandDto>
     public override async Task HandleAsync(UpdateBrandRequest req, CancellationToken ct)
     {
         var id = Route<Guid>("id");
-        var brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == id, ct);
+        var brand = await _context.Brands
+            .Include(b => b.Products)
+                .ThenInclude(p => p.Options)
+            .Include(b => b.Products)
+                .ThenInclude(p => p.OrderSteps)
+            .FirstOrDefaultAsync(b => b.Id == id, ct);
 
         if (brand == null)
         {
@@ -51,7 +56,30 @@ public class UpdateBrand : Endpoint<UpdateBrandRequest, BrandDto>
             Name = brand.Name,
             BaseUrl = brand.BaseUrl.ToString(),
             LogoUrl = brand.LogoUrl.ToString(),
-            MinimumFreeDeliveryPrice = brand.MinimumFreeDeliveryPrice
+            MinimumFreeDeliveryPrice = brand.MinimumFreeDeliveryPrice,
+            Products = brand.Products?.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Url = p.Url.ToString(),
+                Description = p.Description,
+                Price = p.Price,
+                BrandEntityId = p.BrandEntityId,
+                Options = p.Options?.Select(o => new OptionDto
+                {
+                    Id = o.Id,
+                    Name = o.Name,
+                    Values = o.Values,
+                    ProductEntityId = o.ProductEntityId
+                }).ToList() ?? [],
+                OrderSteps = p.OrderSteps?.Select(os => new OrderStepDto
+                {
+                    Id = os.Id,
+                    StepName = os.StepName,
+                    StepInJs = os.StepInJs,
+                    ProductEntityId = os.ProductEntityId
+                }).ToList() ?? []
+            }).ToList() ?? []
         };
 
         await Send.OkAsync(response, ct);

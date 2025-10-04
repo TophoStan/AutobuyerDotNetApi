@@ -29,7 +29,10 @@ public class UpdateOption : Endpoint<UpdateOptionRequest, OptionDto>
     public override async Task HandleAsync(UpdateOptionRequest req, CancellationToken ct)
     {
         var id = Route<Guid>("id");
-        var option = await _context.Options.FirstOrDefaultAsync(o => o.Id == id, ct);
+        var option = await _context.Options
+            .Include(o => o.ProductEntity)
+            .ThenInclude(p => p.BrandEntity)
+            .FirstOrDefaultAsync(o => o.Id == id, ct);
 
         if (option == null)
         {
@@ -59,7 +62,6 @@ public class UpdateOption : Endpoint<UpdateOptionRequest, OptionDto>
             Values = option.Values,
             ProductEntityId = option.ProductEntityId
         };
-
         await Send.OkAsync(response, ct);
     }
 }

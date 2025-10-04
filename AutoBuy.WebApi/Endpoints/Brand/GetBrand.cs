@@ -26,7 +26,12 @@ public class GetBrand : Endpoint<GetBrandRequest, BrandDto>
 
     public override async Task HandleAsync(GetBrandRequest req, CancellationToken ct)
     {
-        var brand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == req.Id, ct);
+        var brand = await _context.Brands
+            .Include(b => b.Products)
+                .ThenInclude(p => p.Options)
+            .Include(b => b.Products)
+                .ThenInclude(p => p.OrderSteps)
+            .FirstOrDefaultAsync(b => b.Id == req.Id, ct);
 
         if (brand == null)
         {
@@ -34,13 +39,36 @@ public class GetBrand : Endpoint<GetBrandRequest, BrandDto>
             return;
         }
 
-        var response = new BrandDto()
+        var response = new BrandDto
         {
             Id = brand.Id,
             Name = brand.Name,
             BaseUrl = brand.BaseUrl.ToString(),
             LogoUrl = brand.LogoUrl.ToString(),
-            MinimumFreeDeliveryPrice = brand.MinimumFreeDeliveryPrice
+            MinimumFreeDeliveryPrice = brand.MinimumFreeDeliveryPrice,
+            Products = brand.Products?.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Url = p.Url.ToString(),
+                Description = p.Description,
+                Price = p.Price,
+                BrandEntityId = p.BrandEntityId,
+                Options = p.Options?.Select(o => new OptionDto
+                {
+                    Id = o.Id,
+                    Name = o.Name,
+                    Values = o.Values,
+                    ProductEntityId = o.ProductEntityId
+                }).ToList() ?? [],
+                OrderSteps = p.OrderSteps?.Select(os => new OrderStepDto
+                {
+                    Id = os.Id,
+                    StepName = os.StepName,
+                    StepInJs = os.StepInJs,
+                    ProductEntityId = os.ProductEntityId
+                }).ToList() ?? []
+            }).ToList() ?? []
         };
 
         await Send.OkAsync(response, ct);

@@ -21,4 +21,3 @@ public record ProductSummaryDto
     public required decimal Price { get; set; }
     public required Guid BrandEntityId { get; set; }
 }
-

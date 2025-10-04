@@ -21,7 +21,19 @@
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgres-server
+  
+  webapi:
+    build:
+      context: .
+      dockerfile: /AutoBuy.WebApi/Dockerfile
+      no_cache: true
+    ports:
+      - "5000:8080"
+    environment:
+      POSTGRESQL_CONNECTIONSTRING: Server=postgres-server;Port=5432;Database=data;User Id=admin;Password=password; Include Error Detail = true;
+      PLAYWRIGHT_SERVER: null
 
 volumes:
   pgdata:
   pgadmin-data:
+    
