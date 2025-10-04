@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoBuy", "AutoBuy\AutoBuy.csproj", "{0A8CFACE-ABCD-4CEC-A91C-63BB4E4013E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoBuy.WebApi", "AutoBuy.WebApi\AutoBuy.WebApi.csproj", "{0A8CFACE-ABCD-4CEC-A91C-63BB4E4013E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{98D2B214-5C87-4AA9-902E-FCA9D58B609C}"
 EndProject

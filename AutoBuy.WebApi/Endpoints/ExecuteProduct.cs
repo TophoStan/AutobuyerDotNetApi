@@ -7,10 +7,12 @@ namespace AutoBuy;
 
 public record ExecuteProductRequest
 {
+    public string ProductName { get; set; }
 }
 
 public record ExecuteProductResponse
 {
+    public string ProductName { get; set; }
 }
 
 #endregion
@@ -26,7 +28,7 @@ public class ExecuteProduct : Endpoint<ExecuteProductRequest, ExecuteProductResp
 
     public override void Configure()
     {
-        Post("/products");
+        Post("/exe/products");
         AllowAnonymous();
     }
 
