@@ -1,7 +1,7 @@
 ﻿using AutobuyerPlayer.Contracts;
 using FastEndpoints;
 
-namespace AutoBuy.Endpoints;
+namespace AutoBuy;
 
 #region MyRegion
 
