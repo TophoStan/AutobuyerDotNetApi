@@ -1,16 +1,15 @@
 using AutobuyerPlayer;
 using Data;
 using Data.Contracts;
+using Environment;
 using FastEndpoints;
+using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-builder.Services.AddHttpClient();
-builder.Services.AddFastEndpoints();
 builder.Services.SwaggerDocument(o =>
 {
     o.DocumentSettings = s =>
@@ -20,9 +19,19 @@ builder.Services.SwaggerDocument(o =>
         s.Version = "v1";
     };
 });
-builder.Services.AddPlaywrightServerService();
-builder.Services.AddDbContext<AutoBuyAutoBuyDbContext>();
-builder.Services.AddScoped<IAutoBuyDbContext,  AutoBuyAutoBuyDbContext>();
+
+builder.Services
+    .AddAuthenticationJwtBearer(s => s.SigningKey = EnvironmentExtensions.GetJwtSigningKey()) //add this
+    .AddAuthorization() //add this
+    .AddFastEndpoints();
+
+builder.Services
+    .AddOpenApi()
+    .AddHttpClient()
+    .AddDatabase()
+    .AddPlaywrightServerService();
+
+builder.Services.AddCors(x => { x.AddDefaultPolicy(y => { y.AllowAnyOrigin(); }); });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,10 +41,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerGen();
 }
 
+app.UseAuthentication() //add this
+    .UseAuthorization() //add this
+    .UseFastEndpoints(c => { c.Endpoints.RoutePrefix = "api"; });
 app.UseHttpsRedirection();
-app.UseFastEndpoints(c =>
-{
-    c.Endpoints.RoutePrefix = "api";
-});
+
+
+app.UseCors();
 
 app.Run();

@@ -13,7 +13,7 @@ public record CreateProductRequest
     public required Guid BrandEntityId { get; set; }
 }
 
-public class CreateProduct : Endpoint<CreateProductRequest, ProductSummaryDto>
+public class CreateProduct : Endpoint<CreateProductRequest, ProductDto>
 {
     private readonly IAutoBuyDbContext _context;
 
@@ -52,7 +52,7 @@ public class CreateProduct : Endpoint<CreateProductRequest, ProductSummaryDto>
         _context.Products.Add(product);
         await _context.SaveChangesAsync(ct);
 
-        var response = new ProductSummaryDto
+        var response = new ProductDto
         {
             Id = product.Id,
             Name = product.Name,

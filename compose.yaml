@@ -8,7 +8,18 @@
       POSTGRES_PASSWORD: password
       POSTGRES_DB: data
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data 
+    
+  identity-server:
+    image: postgres:17-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: data
+    volumes:
+      - identity_data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -35,5 +46,6 @@
 
 volumes:
   pgdata:
+  identity_data:
   pgadmin-data:
     

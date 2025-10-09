@@ -13,7 +13,7 @@ public record UpdateProductRequest
     public required Guid BrandEntityId { get; set; }
 }
 
-public class UpdateProduct : Endpoint<UpdateProductRequest, ProductSummaryDto>
+public class UpdateProduct : Endpoint<UpdateProductRequest, ProductDto>
 {
     private readonly IAutoBuyDbContext _context;
 
@@ -56,7 +56,7 @@ public class UpdateProduct : Endpoint<UpdateProductRequest, ProductSummaryDto>
 
         await _context.SaveChangesAsync(ct);
 
-        var response = new ProductSummaryDto
+        var response = new ProductDto
         {
             Id = product.Id,
             Name = product.Name,

@@ -6,7 +6,7 @@ namespace AutoBuy;
 
 public record GetProductsResponse
 {
-    public List<ProductSummaryDto> Products { get; set; } = [];
+    public List<ProductDto> Products { get; set; } = [];
 }
 
 public class GetProducts : EndpointWithoutRequest<GetProductsResponse>
@@ -28,14 +28,15 @@ public class GetProducts : EndpointWithoutRequest<GetProductsResponse>
     {
         var products = await _context.Products.ToListAsync(ct);
 
-        var response = products.Select(p => new ProductSummaryDto
+        var response = products.Select(p => new ProductDto
         {
             Id = p.Id,
             Name = p.Name,
             Url = p.Url.ToString(),
             Description = p.Description,
             Price = p.Price,
-            BrandEntityId = p.BrandEntityId
+            BrandEntityId = p.BrandEntityId,
+            
         }).ToList();
 
         await Send.OkAsync(new GetProductsResponse { Products = response }, ct);

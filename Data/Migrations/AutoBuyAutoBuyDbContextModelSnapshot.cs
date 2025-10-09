@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
-    [DbContext(typeof(AutoBuyAutoBuyDbContext))]
-    partial class AutoBuyAutoBuyDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AutoBuyDbContext))]
+    partial class AutoBuyDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

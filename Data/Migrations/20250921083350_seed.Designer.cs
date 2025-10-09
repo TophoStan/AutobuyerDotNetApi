@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
-    [DbContext(typeof(AutoBuyAutoBuyDbContext))]
+    [DbContext(typeof(AutoBuyDbContext))]
     [Migration("20250921083350_seed")]
     partial class seed
     {

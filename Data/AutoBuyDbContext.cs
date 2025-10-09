@@ -1,10 +1,11 @@
 ﻿using Data.Contracts;
 using Environment;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data;
 
-public class AutoBuyAutoBuyDbContext : DbContext, IAutoBuyDbContext
+public class AutoBuyDbContext : DbContext, IAutoBuyDbContext
 {
     public DbSet<OrderStepEntity> OrderSteps { get; set; }
     public DbSet<BrandEntity> Brands { get; set; }
@@ -36,7 +37,7 @@ public class AutoBuyAutoBuyDbContext : DbContext, IAutoBuyDbContext
                 .HasDefaultValueSql("gen_random_uuid()");
         }
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutoBuyAutoBuyDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutoBuyDbContext).Assembly);
 
 
         base.OnModelCreating(modelBuilder);
