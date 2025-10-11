@@ -5,6 +5,7 @@ using Environment;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
+using GooglePlaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +30,14 @@ builder.Services
     .AddOpenApi()
     .AddHttpClient()
     .AddDatabase()
-    .AddPlaywrightServerService();
+    .AddPlaywrightServerService()
+    .AddGooglePlacesApi();
 
-builder.Services.AddCors(x => { x.AddDefaultPolicy(y => { y.AllowAnyOrigin(); }); });
+builder.Services.AddCors(x => { x.AddDefaultPolicy(y =>
+{
+    y.AllowAnyOrigin();
+    y.AllowAnyHeader();
+}); });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

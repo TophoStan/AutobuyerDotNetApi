@@ -22,6 +22,7 @@
     <ItemGroup>
       <ProjectReference Include="..\AutobuyerPlayer\AutobuyerPlayer.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
+      <ProjectReference Include="..\GooglePlaces\GooglePlaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>

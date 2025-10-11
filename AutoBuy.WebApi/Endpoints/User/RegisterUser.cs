@@ -1,4 +1,5 @@
-﻿using Data.Contracts;
+﻿using System.Text.Json.Serialization;
+using Data.Contracts;
 using Environment;
 using FastEndpoints;
 using FastEndpoints.Security;
@@ -8,13 +9,17 @@ namespace AutoBuy;
 
 public record RegisterUserRequest
 {
+    [JsonPropertyName("email")]
     public required string Email { get; set; }
+    [JsonPropertyName("password")]
     public required string Password { get; set; }
 }
 
 public record RegisterUserResponse
 {
+    [JsonPropertyName("email")]
     public required string Email { get; set; }
+    [JsonPropertyName("token")]
     public required string Token { get; set; }
 }
 
