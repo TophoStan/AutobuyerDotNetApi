@@ -16,4 +16,6 @@ public static class EnvironmentExtensions
     public static string GetIdentityPostgresConnectionString() => System.Environment.GetEnvironmentVariable(PostgreSqlIdentityConnectionstring);
     
     public static string GetJwtSigningKey()  => System.Environment.GetEnvironmentVariable("JWT_SIGNING_KEY");
+    
+    public static string GetGooglePlacesApiKey() => System.Environment.GetEnvironmentVariable("GOOGLE_PlACES_API_KEY");
 }

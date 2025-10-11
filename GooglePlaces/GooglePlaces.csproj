@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Environment\Environment.csproj" />
       <ProjectReference Include="..\GooglePlacesApi.Contracts\GooglePlacesApi.Contracts.csproj" />
     </ItemGroup>
 

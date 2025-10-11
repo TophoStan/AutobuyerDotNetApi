@@ -263,4 +263,4 @@ FakesAssemblies/
 *.opt
 
 # launchsettings
-AutoBuy.WebApi/Properties/launchSettings.json
+**/Properties/launchSettings.json
