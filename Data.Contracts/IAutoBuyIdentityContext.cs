@@ -5,7 +5,5 @@ namespace Data.Contracts;
 
 public interface IAutoBuyIdentityContext
 {
-    
 
-    Task<string> GenerateTokenAsync(IdentityUser user, CancellationToken cancellationToken);
 }

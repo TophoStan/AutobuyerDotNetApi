@@ -1,4 +1,6 @@
-﻿using Environment;
+﻿using System.Text.Json.Serialization;
+using Data.Contracts;
+using Environment;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.Identity;
@@ -13,14 +15,15 @@ public record LoginUserRequest
 
 public record LoginUserResponse
 {
+    [JsonPropertyName("token")]
     public required string Token { get; set; }
 }
 
 public class LoginUser : Endpoint<LoginUserRequest, LoginUserResponse>
 {
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly SignInManager<AutoBuyIdentityUser> _signInManager;
 
-    public LoginUser(SignInManager<IdentityUser> signInManager)
+    public LoginUser(SignInManager<AutoBuyIdentityUser> signInManager)
     {
         _signInManager = signInManager;
     }
@@ -34,6 +37,7 @@ public class LoginUser : Endpoint<LoginUserRequest, LoginUserResponse>
     public override async Task HandleAsync(LoginUserRequest req, CancellationToken ct)
     {
         var user = await _signInManager.UserManager.FindByEmailAsync(req.Email.Trim());
+        
         if (user is null)
         {
             AddError("Email", "User not found");

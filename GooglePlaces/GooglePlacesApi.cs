@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Web;
 using Environment;
 using GooglePlacesApi.Contracts;
 
@@ -17,8 +18,17 @@ public class GooglePlacesApi : IGooglePlacesApi
 
     public async Task<PlacesResponseDto> GetPlaceSuggestions(string input, string region)
     {
+
+        var urlbuilder = new UriBuilder("https://maps.googleapis.com/maps/api/place/autocomplete/json");
+        var query = HttpUtility.ParseQueryString(urlbuilder.Query);      
+        query["input"] = input;
+        query["region"] = region;
+        query["key"] = _apiKey;
+        
+        urlbuilder.Query = query.ToString();
+        var finalUri = urlbuilder.Uri;
         return await _httpClient.GetFromJsonAsync<PlacesResponseDto>(
-            $"https://maps.googleapis.com/maps/api/place/autocomplete/json?input={input}a&key={_apiKey}&region={region}",
+            finalUri,
             CancellationToken.None) ?? new PlacesResponseDto();
     }
 

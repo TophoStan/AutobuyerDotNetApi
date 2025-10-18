@@ -9,25 +9,29 @@ namespace AutoBuy;
 
 public record RegisterUserRequest
 {
-    [JsonPropertyName("email")]
-    public required string Email { get; set; }
-    [JsonPropertyName("password")]
-    public required string Password { get; set; }
+    [JsonPropertyName("email")] public required string Email { get; set; }
+    [JsonPropertyName("password")] public required string Password { get; set; }
+
+    [JsonPropertyName("address")] public required string Address { get; set; }
+
+    [JsonPropertyName("city")] public required string City { get; set; }
+
+    [JsonPropertyName("country")] public required string Country { get; set; }
+
+    [JsonPropertyName("postal_code")] public required string PostalCode { get; set; }
 }
 
 public record RegisterUserResponse
 {
-    [JsonPropertyName("email")]
-    public required string Email { get; set; }
-    [JsonPropertyName("token")]
-    public required string Token { get; set; }
+    [JsonPropertyName("email")] public required string Email { get; set; }
+    [JsonPropertyName("token")] public required string Token { get; set; }
 }
 
 public class RegisterUser : Endpoint<RegisterUserRequest, RegisterUserResponse>
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<AutoBuyIdentityUser> _userManager;
 
-    public RegisterUser(UserManager<IdentityUser> userManager)
+    public RegisterUser(UserManager<AutoBuyIdentityUser> userManager)
     {
         _userManager = userManager;
     }
@@ -40,7 +44,11 @@ public class RegisterUser : Endpoint<RegisterUserRequest, RegisterUserResponse>
 
     public override async Task HandleAsync(RegisterUserRequest req, CancellationToken ct)
     {
-        var user = new IdentityUser { UserName = req.Email, Email = req.Email };
+        var user = new AutoBuyIdentityUser
+        {
+            UserName = req.Email, Email = req.Email, Address = req.Address, City = req.City, Country = req.Country,
+            PostalCode = req.PostalCode
+        };
         var result = await _userManager.CreateAsync(user, req.Password);
         if (!result.Succeeded)
         {

@@ -13,7 +13,7 @@ public static class DatabaseDiConfiguration
         services.AddScoped<IAutoBuyDbContext, AutoBuyDbContext>();
         services.AddScoped<IAutoBuyIdentityContext, AutoBuyIdentityDbContext>();
 
-        services.AddIdentityCore<IdentityUser>(options =>
+        services.AddIdentityCore<AutoBuyIdentityUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
@@ -25,7 +25,7 @@ public static class DatabaseDiConfiguration
                 options.Password.RequiredUniqueChars = 1;
             })
             .AddEntityFrameworkStores<AutoBuyIdentityDbContext>()
-            .AddSignInManager<SignInManager<IdentityUser>>() // 👈 This line adds SignInManager
+            .AddSignInManager<SignInManager<AutoBuyIdentityUser>>() // 👈 This line adds SignInManager
             .AddDefaultTokenProviders(); // optional, if you need password reset / confirmation tokens
 
 
