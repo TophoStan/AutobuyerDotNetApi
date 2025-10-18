@@ -9,8 +9,15 @@ namespace AutoBuy;
 
 public record RegisterUserRequest
 {
+    [JsonPropertyName("first_name")]
+    public required string FirstName { get; set; }
+    
+    [JsonPropertyName("last_name")]
+    public required string LastName { get; set; }
     [JsonPropertyName("email")] public required string Email { get; set; }
     [JsonPropertyName("password")] public required string Password { get; set; }
+    
+    [JsonPropertyName("phone_number")] public required string PhoneNumber { get; set; }
 
     [JsonPropertyName("address")] public required string Address { get; set; }
 
@@ -47,7 +54,10 @@ public class RegisterUser : Endpoint<RegisterUserRequest, RegisterUserResponse>
         var user = new AutoBuyIdentityUser
         {
             UserName = req.Email, Email = req.Email, Address = req.Address, City = req.City, Country = req.Country,
-            PostalCode = req.PostalCode
+            PostalCode = req.PostalCode,
+            FirstName = req.FirstName,
+            LastName = req.LastName,
+            PhoneNumber = req.PhoneNumber
         };
         var result = await _userManager.CreateAsync(user, req.Password);
         if (!result.Succeeded)
@@ -61,7 +71,7 @@ public class RegisterUser : Endpoint<RegisterUserRequest, RegisterUserResponse>
         {
             o.SigningKey = EnvironmentExtensions.GetJwtSigningKey();
             o.ExpireAt = DateTime.UtcNow.AddDays(1);
-            o.User.Claims.Add(("Email", req.Email));
+            o.User.Claims.Add(("email", req.Email));
         });
 
         await Send.OkAsync(new RegisterUserResponse
