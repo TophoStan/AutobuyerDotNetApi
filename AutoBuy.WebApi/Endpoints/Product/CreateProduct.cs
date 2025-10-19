@@ -11,6 +11,8 @@ public record CreateProductRequest
     public required string Description { get; set; }
     public required decimal Price { get; set; }
     public required Guid BrandEntityId { get; set; }
+    
+    public required Uri ImageUrl { get; set; }
 }
 
 public class CreateProduct : Endpoint<CreateProductRequest, ProductDto>
@@ -46,7 +48,8 @@ public class CreateProduct : Endpoint<CreateProductRequest, ProductDto>
             Url = new Uri(req.Url),
             Description = req.Description,
             Price = req.Price,
-            BrandEntityId = req.BrandEntityId
+            BrandEntityId = req.BrandEntityId,
+            ImageUrl = req.ImageUrl
         };
 
         _context.Products.Add(product);
@@ -59,7 +62,8 @@ public class CreateProduct : Endpoint<CreateProductRequest, ProductDto>
             Url = product.Url.ToString(),
             Description = product.Description,
             Price = product.Price,
-            BrandEntityId = product.BrandEntityId
+            BrandEntityId = product.BrandEntityId,
+            ImageUrl = product.ImageUrl
         };
 
         await Send.CreatedAtAsync<GetProduct>(new { id = product.Id }, response, cancellation: ct);

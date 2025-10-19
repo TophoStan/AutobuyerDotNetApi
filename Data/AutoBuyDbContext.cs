@@ -16,7 +16,6 @@ public class AutoBuyDbContext : DbContext, IAutoBuyDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (optionsBuilder.IsConfigured) return;
-        Console.WriteLine(EnvironmentExtensions.GetPostgresConnectionString());
         optionsBuilder.UseNpgsql(EnvironmentExtensions.GetPostgresConnectionString(), npgsqlOptions =>
         {
             npgsqlOptions.MigrationsAssembly("Data");

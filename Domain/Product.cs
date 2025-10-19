@@ -13,4 +13,6 @@ public class Product
     public List<Option> Options {get; set;} = [];
 
     public List<OrderStep> OrderSteps { get; set; } = [];
+    
+    public Uri ImageUrl { get; set; } = new Uri("");
 }

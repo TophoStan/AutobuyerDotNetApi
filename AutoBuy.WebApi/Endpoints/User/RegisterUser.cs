@@ -9,11 +9,9 @@ namespace AutoBuy;
 
 public record RegisterUserRequest
 {
-    [JsonPropertyName("first_name")]
-    public required string FirstName { get; set; }
+        public required string FirstName { get; set; }
     
-    [JsonPropertyName("last_name")]
-    public required string LastName { get; set; }
+        public required string LastName { get; set; }
     [JsonPropertyName("email")] public required string Email { get; set; }
     [JsonPropertyName("password")] public required string Password { get; set; }
     

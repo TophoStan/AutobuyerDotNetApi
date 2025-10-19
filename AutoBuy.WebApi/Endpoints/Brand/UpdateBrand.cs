@@ -65,6 +65,7 @@ public class UpdateBrand : Endpoint<UpdateBrandRequest, BrandDto>
                 Description = p.Description,
                 Price = p.Price,
                 BrandEntityId = p.BrandEntityId,
+                ImageUrl = p.ImageUrl,
                 Options = p.Options?.Select(o => new OptionDto
                 {
                     Id = o.Id,

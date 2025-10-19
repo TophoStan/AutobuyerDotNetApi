@@ -15,8 +15,7 @@ public record LoginUserRequest
 
 public record LoginUserResponse
 {
-    [JsonPropertyName("token")]
-    public required string Token { get; set; }
+        public required string Token { get; set; }
 }
 
 public class LoginUser : Endpoint<LoginUserRequest, LoginUserResponse>

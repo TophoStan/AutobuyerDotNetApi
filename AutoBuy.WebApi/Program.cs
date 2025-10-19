@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AutobuyerPlayer;
 using Data;
 using Data.Contracts;
@@ -19,6 +21,11 @@ builder.Services.SwaggerDocument(o =>
         s.Description = "AutoBuy API for managing brands, products, options, and order steps";
         s.Version = "v1";
     };
+    o.SerializerSettings = s =>
+    {
+        s.PropertyNamingPolicy =  JsonNamingPolicy.SnakeCaseLower;
+        s.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    };
 });
 
 builder.Services
@@ -33,11 +40,15 @@ builder.Services
     .AddPlaywrightServerService()
     .AddGooglePlacesApi();
 
-builder.Services.AddCors(x => { x.AddDefaultPolicy(y =>
+
+builder.Services.AddCors(x =>
 {
-    y.AllowAnyOrigin();
-    y.AllowAnyHeader();
-}); });
+    x.AddDefaultPolicy(y =>
+    {
+        y.AllowAnyOrigin();
+        y.AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,7 +60,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication() //add this
     .UseAuthorization() //add this
-    .UseFastEndpoints(c => { c.Endpoints.RoutePrefix = "api"; });
+    .UseFastEndpoints(c =>
+    {
+        c.Endpoints.RoutePrefix = "api";
+        c.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+        c.Serializer.ResponseSerializer = (rsp, dto, cType, jCtx, ct) =>
+        {
+            rsp.ContentType = cType;
+            return rsp.WriteAsync(
+                System.Text.Json.JsonSerializer.Serialize(dto,
+                    new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower }), ct);
+        };
+    });
 app.UseHttpsRedirection();
 
 

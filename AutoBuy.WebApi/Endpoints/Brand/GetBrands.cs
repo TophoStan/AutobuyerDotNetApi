@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Data.Contracts;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ namespace AutoBuy;
 
 public record GetBrandsResponse
 {
-    public List<BrandDto> Brands { get; set; } = [];
+        public List<BrandDto> Brands { get; set; } = [];
 }
 
 public class GetBrands : EndpointWithoutRequest<GetBrandsResponse>
@@ -48,6 +49,7 @@ public class GetBrands : EndpointWithoutRequest<GetBrandsResponse>
                 Description = p.Description,
                 Price = p.Price,
                 BrandEntityId = p.BrandEntityId,
+                ImageUrl = p.ImageUrl,
                 Options = p.Options?.Select(o => new OptionDto
                 {
                     Id = o.Id,

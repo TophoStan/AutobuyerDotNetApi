@@ -40,7 +40,8 @@ public static class EntityMapper
             Price = product.Price,
             Options = product.Options.Select(o => o.ToEntity()).ToList(),
             OrderSteps = product.OrderSteps.Select(os => os.ToEntity()).ToList(),
-            BrandEntityId = Guid.Empty // This should be set by the caller
+            BrandEntityId = Guid.Empty, // This should be set by the caller
+            ImageUrl = product.ImageUrl
         };
     }
 
@@ -53,7 +54,8 @@ public static class EntityMapper
             Description = entity.Description,
             Price = entity.Price,
             Options = entity.Options?.Select(o => o.ToDomain()).ToList() ?? [],
-            OrderSteps = entity.OrderSteps?.Select(os => os.ToDomain()).ToList() ?? []
+            OrderSteps = entity.OrderSteps?.Select(os => os.ToDomain()).ToList() ?? [],
+            ImageUrl = entity.ImageUrl
         };
     }
 

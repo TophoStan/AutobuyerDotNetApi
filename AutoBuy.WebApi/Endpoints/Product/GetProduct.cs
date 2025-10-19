@@ -45,6 +45,7 @@ public class GetProduct : Endpoint<GetProductRequest, ProductDto>
             Description = product.Description,
             Price = product.Price,
             BrandEntityId = product.BrandEntityId,
+            ImageUrl = product.ImageUrl,
             Options = product.Options?.Select(o => new OptionDto
             {
                 Id = o.Id,

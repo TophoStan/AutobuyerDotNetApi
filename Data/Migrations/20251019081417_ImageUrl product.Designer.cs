@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Data.Migrations
+namespace Data.MigrationsIdentity
 {
     [DbContext(typeof(AutoBuyDbContext))]
-    partial class AutoBuyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251019081417_ImageUrl product")]
+    partial class ImageUrlproduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +158,10 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -178,6 +185,7 @@ namespace Data.Migrations
                             Id = new Guid("393d1534-3f8e-4b47-bdae-ed974c609982"),
                             BrandEntityId = new Guid("4542dfea-86e4-4fce-9446-c1b840fbefa0"),
                             Description = "Proteine enzo",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0254/4667/8590/files/nw_WheyMilkshake_Vanille_still_final_v1_0b704c6c-7f7b-484d-bb65-7d12e1c7834a.jpg",
                             Name = "Why protein",
                             Price = 24m,
                             Url = "https://upfront.nl/products/whey"

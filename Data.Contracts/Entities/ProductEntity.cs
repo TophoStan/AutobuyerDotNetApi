@@ -17,4 +17,6 @@ public class ProductEntity : BaseEntity
     public BrandEntity BrandEntity { get; set; }
     
     public Guid BrandEntityId { get; set; }
+    
+    public required Uri ImageUrl { get; set; }
 }

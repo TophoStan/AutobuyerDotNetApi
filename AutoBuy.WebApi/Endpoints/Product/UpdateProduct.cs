@@ -63,7 +63,8 @@ public class UpdateProduct : Endpoint<UpdateProductRequest, ProductDto>
             Url = product.Url.ToString(),
             Description = product.Description,
             Price = product.Price,
-            BrandEntityId = product.BrandEntityId
+            BrandEntityId = product.BrandEntityId,
+            ImageUrl = product.ImageUrl,
         };
 
         await Send.OkAsync(response, ct);
