@@ -27,9 +27,11 @@ public class GooglePlacesApi : IGooglePlacesApi
         
         urlbuilder.Query = query.ToString();
         var finalUri = urlbuilder.Uri;
-        return await _httpClient.GetFromJsonAsync<PlacesResponseDto>(
+        var result = await _httpClient.GetFromJsonAsync<PlacesResponseDto>(
             finalUri,
             CancellationToken.None) ?? new PlacesResponseDto();
+
+        return result;
     }
 
     public async Task<PlaceDetailsResponseDto> GetAddress(string placeId)

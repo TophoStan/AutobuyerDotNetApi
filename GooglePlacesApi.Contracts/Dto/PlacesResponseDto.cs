@@ -17,6 +17,7 @@ public class PredictionDto
 
         public List<MatchedSubstringDto> MatchedSubstrings { get; set; } = new();
 
+        [JsonPropertyName("place_id")]
         public string PlaceId { get; set; } = string.Empty;
 
         public string Reference { get; set; } = string.Empty;
