@@ -13,5 +13,9 @@ public interface IAutoBuyDbContext
     
     public DbSet<OptionEntity> Options { get; set; }
     
+    public DbSet<ProductConfigurationEntity> ProductConfigurations { get; set; }
+    
+    public DbSet<SelectedOptionEntity> SelectedOptions { get; set; }
+    
     public Task<int> SaveChangesAsync(CancellationToken ct);
 }

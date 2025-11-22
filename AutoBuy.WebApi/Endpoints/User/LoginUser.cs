@@ -57,6 +57,7 @@ public class LoginUser : Endpoint<LoginUserRequest, LoginUserResponse>
             o.SigningKey = EnvironmentExtensions.GetJwtSigningKey();
             o.ExpireAt = DateTime.UtcNow.AddDays(1);
             o.User.Claims.Add(("email", req.Email));
+            o.User.Claims.Add(("id", user.Id));
         });
         await Send.OkAsync(new LoginUserResponse { Token = jwtToken }, ct);
     }

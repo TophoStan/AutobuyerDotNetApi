@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(AutoBuyDbContext))]
-    partial class AutoBuyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251122090054_ProductConfig")]
+    partial class ProductConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,9 +154,6 @@ namespace Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("RepeatEveryAmount")
                         .HasColumnType("integer");
 
@@ -172,8 +172,6 @@ namespace Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductConfigurations");
                 });
@@ -226,15 +224,12 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Contracts.SelectedOptionEntity", b =>
+            modelBuilder.Entity("Data.Contracts.SelectedOptionsEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<Guid>("OptionId")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductConfigurationId")
                         .HasColumnType("uuid");
@@ -244,8 +239,6 @@ namespace Data.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OptionId");
 
                     b.HasIndex("ProductConfigurationId");
 
@@ -274,17 +267,6 @@ namespace Data.Migrations
                     b.Navigation("ProductEntity");
                 });
 
-            modelBuilder.Entity("Data.Contracts.ProductConfigurationEntity", b =>
-                {
-                    b.HasOne("Data.Contracts.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Data.Contracts.ProductEntity", b =>
                 {
                     b.HasOne("Data.Contracts.BrandEntity", "BrandEntity")
@@ -296,21 +278,13 @@ namespace Data.Migrations
                     b.Navigation("BrandEntity");
                 });
 
-            modelBuilder.Entity("Data.Contracts.SelectedOptionEntity", b =>
+            modelBuilder.Entity("Data.Contracts.SelectedOptionsEntity", b =>
                 {
-                    b.HasOne("Data.Contracts.OptionEntity", "Option")
-                        .WithMany()
-                        .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Data.Contracts.ProductConfigurationEntity", "ProductConfiguration")
                         .WithMany("SelectedOptions")
                         .HasForeignKey("ProductConfigurationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Option");
 
                     b.Navigation("ProductConfiguration");
                 });

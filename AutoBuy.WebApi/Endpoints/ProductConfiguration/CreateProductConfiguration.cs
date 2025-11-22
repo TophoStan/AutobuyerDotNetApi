@@ -1,0 +1,84 @@
+﻿using Data.Contracts;
+using FastEndpoints;
+
+namespace AutoBuy.ProductConfiguration;
+
+public record CreateProductConfigurationRequest
+{
+    public required ConfiguredProductDto[] Products { get; init; }
+}
+
+public record ConfiguredProductDto
+{
+    public required Guid Id { get; init; }
+    
+    public required ConfiguredProductOptionsDto[] Options { get; init; }
+    
+    public required int RepeatEveryAmount { get; init; }
+    
+    public required TimePeriod RepeatEveryTimePeriod { get; init; }
+    
+    public required DateTime StartDate { get; init; }
+}
+
+public enum TimePeriod
+{
+    NONE = -1,
+    Day = 0,
+    Week = 1,
+    Month = 2,
+    Year = 3
+}
+
+
+public record ConfiguredProductOptionsDto
+{
+    public required Guid Id { get; init; }
+    
+    public required string Value { get; init; }
+}
+
+public record CreateProductConfigurationResponse
+{
+    public required string Id { get; init; }
+}
+
+
+public class CreateProductConfiguration : Endpoint<CreateProductConfigurationRequest, CreateProductConfigurationResponse>
+{
+    private readonly IAutoBuyDbContext _context;
+
+    public CreateProductConfiguration(IAutoBuyDbContext context)
+    {
+        _context = context;
+    }
+
+    public override void Configure()
+    {
+        Post("/productconfiguration");
+        AuthSchemes("Bearer");
+    }
+
+    public override async Task HandleAsync(CreateProductConfigurationRequest req, CancellationToken ct)
+    {
+        var userId = User.FindFirst("id")?.Value;
+
+        if (userId is null)
+        {
+            AddError("User", "User not found");
+            await Send.ErrorsAsync(cancellation: ct);
+            return;
+        }
+
+        var productConfigurations = req.Products.Select(p => p.ToEntity(userId));
+        _context.ProductConfigurations.AddRange(productConfigurations);
+        await _context.SaveChangesAsync(ct);
+
+        var response = new CreateProductConfigurationResponse
+        {
+            Id = "",
+        };
+
+        await Send.OkAsync(response, cancellation: ct);
+    }
+}

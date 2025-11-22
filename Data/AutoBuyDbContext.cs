@@ -11,6 +11,8 @@ public class AutoBuyDbContext : DbContext, IAutoBuyDbContext
     public DbSet<BrandEntity> Brands { get; set; }
     public DbSet<ProductEntity> Products { get; set; }
     public DbSet<OptionEntity> Options { get; set; }
+    public DbSet<ProductConfigurationEntity> ProductConfigurations { get; set; }
+    public DbSet<SelectedOptionEntity> SelectedOptions { get; set; }
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

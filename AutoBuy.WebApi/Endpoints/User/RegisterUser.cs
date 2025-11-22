@@ -4,6 +4,7 @@ using Environment;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.Identity;
+using Namotion.Reflection;
 
 namespace AutoBuy;
 
