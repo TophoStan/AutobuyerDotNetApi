@@ -1,4 +1,5 @@
-﻿using Data.Contracts;
+﻿using AutoBuy.Dtos;
+using Data.Contracts;
 using FastEndpoints;
 
 namespace AutoBuy.ProductConfiguration;
@@ -6,36 +7,6 @@ namespace AutoBuy.ProductConfiguration;
 public record CreateProductConfigurationRequest
 {
     public required ConfiguredProductDto[] Products { get; init; }
-}
-
-public record ConfiguredProductDto
-{
-    public required Guid Id { get; init; }
-    
-    public required ConfiguredProductOptionsDto[] Options { get; init; }
-    
-    public required int RepeatEveryAmount { get; init; }
-    
-    public required TimePeriod RepeatEveryTimePeriod { get; init; }
-    
-    public required DateTime StartDate { get; init; }
-}
-
-public enum TimePeriod
-{
-    NONE = -1,
-    Day = 0,
-    Week = 1,
-    Month = 2,
-    Year = 3
-}
-
-
-public record ConfiguredProductOptionsDto
-{
-    public required Guid Id { get; init; }
-    
-    public required string Value { get; init; }
 }
 
 public record CreateProductConfigurationResponse
@@ -56,6 +27,7 @@ public class CreateProductConfiguration : Endpoint<CreateProductConfigurationReq
     public override void Configure()
     {
         Post("/productconfiguration");
+        
         AuthSchemes("Bearer");
     }
 

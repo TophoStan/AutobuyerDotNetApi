@@ -1,4 +1,6 @@
-﻿using Data.Contracts;
+﻿using AutoBuy.Dtos;
+using Data.Contracts;
+using TimePeriod = Data.Contracts.TimePeriod;
 
 namespace AutoBuy.ProductConfiguration;
 

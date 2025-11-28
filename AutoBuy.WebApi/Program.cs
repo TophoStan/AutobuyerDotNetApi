@@ -47,6 +47,7 @@ builder.Services.AddCors(x =>
     {
         y.AllowAnyOrigin();
         y.AllowAnyHeader();
+        y.AllowAnyMethod();
     });
 });
 var app = builder.Build();
