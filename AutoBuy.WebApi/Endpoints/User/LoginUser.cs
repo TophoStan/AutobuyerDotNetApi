@@ -39,16 +39,14 @@ public class LoginUser : Endpoint<LoginUserRequest, LoginUserResponse>
         
         if (user is null)
         {
-            AddError("Email", "User not found");
-            await Send.ErrorsAsync(cancellation: ct);
+            ThrowError("Email", 404);
             return;
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, req.Password, lockoutOnFailure: false);
         if (!result.Succeeded)
         {
-            AddError("Password", "Invalid password");
-            await Send.ErrorsAsync(cancellation: ct);
+            ThrowError("Password", 401);
             return;
         }
 
